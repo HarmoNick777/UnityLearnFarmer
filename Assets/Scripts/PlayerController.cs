@@ -5,8 +5,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float speed = 0.6f;
-
+    [SerializeField] float speed = 20f;
+    [SerializeField] float xRange = 15f;
+    [SerializeField] GameObject projectilePrefab;
+    
     private float movementX;
 
     private void OnMove(InputValue movementValue)
@@ -16,10 +18,22 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        Vector3 movement = new Vector3(movementX, 0f, 0f);
-        movement.Normalize();
-        transform.Translate(movement * speed);
+        if(transform.position.x < -xRange)
+        {
+            transform.position = new Vector3(-xRange, transform.position.y, transform.position.z);
+        }
+        
+        if(transform.position.x > xRange)
+        {
+            transform.position = new Vector3(xRange, transform.position.y, transform.position.z);
+        }
+        
+        transform.Translate(Vector3.right * movementX * speed * Time.deltaTime);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+        }
     }
 }
