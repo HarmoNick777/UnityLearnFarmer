@@ -17,6 +17,11 @@ public class PlayerController : MonoBehaviour
         movementX = movementVector;
     }
 
+    private void OnFire()
+    {
+        Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -31,9 +36,5 @@ public class PlayerController : MonoBehaviour
         }
         
         transform.Translate(Vector3.right * movementX * speed * Time.deltaTime);
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
-        }
     }
 }
